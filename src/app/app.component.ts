@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'login';
+  title = 'Authentication App';
+
+  loginForm =  new FormGroup({
+    email: new FormControl(null,  {
+      updateOn: "blur",
+      validators: [Validators.required, Validators.email]
+    }),
+    password: new FormControl(null, {
+      updateOn: "blur",
+      validators: [Validators.required, Validators.minLength(6)],
+    })
+  });
 }
