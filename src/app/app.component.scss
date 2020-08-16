@@ -55,10 +55,19 @@ mat-form-field {
   }
 }
 
+button {
+  position: relative;
+  top: 80%;
+  background-color: $color-1;
+  color: black;
+  padding: .2em 2.5em;
+  font-weight: 600;
+}
+
 .footer {
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: -1px;
   width: 100%;
   height: 2em;
   background-color: $color-1;

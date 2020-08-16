@@ -4,9 +4,9 @@
       <div class="form__container d-flex flex-column justify-content-center align-items-center">
         <div class="header">
           Authentication APP made with
-          <span class="tech tech__nodejs">Node.js</span>
-          &
           <span class="tech tech__angular">Angular</span>
+          &
+          <span class="tech tech__nodejs">Node.js</span>
         </div>
         <form
           class="form d-flex flex-column justify-content-center  align-items-center"
@@ -14,32 +14,36 @@
           <div class="row w-100 justify-content-center">
             <div class="col col-9 col-sm-9">
               <mat-form-field appearance="outline">
-                <mat-label>Enter your email</mat-label>
+                <mat-label>Email</mat-label>
                 <input
                   matInput
                   placeholder="myemail@example.com"
                   formControlName="email"
                   required>
-                <mat-error *ngIf="loginForm.get('email').valid && loginForm.get('email').touched">error email</mat-error>
+                <mat-error *ngIf="showEmailError()">{{ emailErrorMessage }}</mat-error>
               </mat-form-field>
             </div>
           </div>
 
-          <div class="row w-100 justify-content-center">
+          <div class="row w-100 justify-content-center mt-2">
             <div class="col col-9 col-sm-9">
               <mat-form-field appearance="outline">
-                <mat-label>Enter your password</mat-label>
+                <mat-label>Password</mat-label>
                 <input
                   matInput
                   placeholder="*****"
                   formControlName="password"
                   required
                   password>
-                <mat-error *ngIf="loginForm.get('password').valid && loginForm.get('password').touched">error password</mat-error>
+                <mat-error *ngIf="showPasswordError()">{{ passwordErrorMessage }}</mat-error>
               </mat-form-field>
             </div>
           </div>
-
+          <div class="row ">
+            <div class="col">
+              <button (click)="logIn()" mat-raised-button >Log In</button>
+            </div>
+          </div>
         </form>
         <div class="footer"></div>
 
