@@ -9,7 +9,24 @@
       Log out
     </div>
   </div>
-  <div class="row userInfo justify-content-center align-content-center">
-    {{ user | json }}
+  <div class="row userInfo flex-column justify-content-center align-content-center">
+    <div class="card">
+      <div class="set">
+        <span class="field field__userinfo"> </span>
+        <span class="value value__userinfo border-bottom-0">User's info</span>
+      </div>
+      <div class="set">
+        <span class="field">name</span>
+        <span class="value border-bottom-0 ">{{ user.name }}</span>
+      </div>
+      <div class="set">
+        <span class="field">email</span>
+        <span class="value border-bottom-0">{{ user.email }}</span>
+      </div>
+      <div class="set">
+        <span class="field">role</span>
+        <span class="value">{{ user.rol }}</span>
+      </div>
+    </div>
   </div>
 </div>
