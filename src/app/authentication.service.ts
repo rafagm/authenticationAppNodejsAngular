@@ -5,6 +5,7 @@ import * as jwt_decode from "jwt-decode";
 import { map, take } from "rxjs/operators";
 import { BehaviorSubject, from, of } from "rxjs";
 import { User } from "./user.model";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: "root",
@@ -12,7 +13,7 @@ import { User } from "./user.model";
 export class AuthenticationService {
   private user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string) {
     this.http
@@ -25,6 +26,7 @@ export class AuthenticationService {
         const jwtDecoded = jwt_decode(token);
 
         this.setUserData(jwtDecoded);
+        this.router.navigateByUrl('/home');
       });
   }
 
@@ -45,6 +47,7 @@ export class AuthenticationService {
   logout() {
     this.user.next(null);
     localStorage.removeItem("user");
+    this.router.navigateByUrl("/login");
   }
 
   userIsAuthenticated() {
@@ -73,7 +76,10 @@ export class AuthenticationService {
 
           this.user.next(user);
 
-          if (!user.tokenIsValid()) localStorage.removeItem("user");
+          if (!user.tokenIsValid())  {
+            this.user.next(null);
+            localStorage.removeItem("user");
+          }
 
           return user.tokenIsValid();
         })

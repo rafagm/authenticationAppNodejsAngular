@@ -1,0 +1,74 @@
+@import "../../variable.scss";
+
+.main {
+  height: 100vh;
+  width: 100vw;
+  background-color: $background-color-1;
+}
+
+.form__container {
+  position: relative;
+  min-height: 30em;
+  min-width: 40em;
+  @media only screen and (max-width: 900px ){
+    min-height: 30em;
+    min-width: 0;
+  }
+  background-color: whitesmoke;
+  -webkit-box-shadow: 13px 13px 23px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 13px 13px 23px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 13px 13px 23px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 7px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 0;
+}
+
+.form {
+  width: 100%;
+}
+
+mat-form-field {
+  display: block;
+}
+
+.header {
+  position: absolute;
+  top: 1em;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.4em;
+  padding: .5em 1em;
+  color: $color-1;
+}
+
+.tech {
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: black;
+
+  &__nodejs {
+
+  }
+
+  &__angular {
+
+  }
+}
+
+button {
+  position: relative;
+  top: 80%;
+  background-color: $color-1;
+  color: black;
+  padding: .2em 2.5em;
+  font-weight: 600;
+}
+
+.footer {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2em;
+  background-color: $color-1;
+}

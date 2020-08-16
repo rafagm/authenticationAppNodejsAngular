@@ -1,0 +1,15 @@
+<div class="main d-flex flex-column">
+  <div class="row justify-content-center">
+    <div class="col col-6 col-sm-3 consumer  text-center p-3">Consumer</div>
+    <div class="col col-6 col-sm-3 moderator text-center p-3">Moderator</div>
+    <div class="col col-6 col-sm-3 administrator text-center p-3">Administrator</div>
+    <div
+      class="col col-6 col-sm-3 logout text-center p-3"
+      (click)="logOut()">
+      Log out
+    </div>
+  </div>
+  <div class="row userInfo justify-content-center align-content-center">
+    {{ user | json }}
+  </div>
+</div>
