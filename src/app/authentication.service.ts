@@ -5,7 +5,9 @@ import * as jwt_decode from "jwt-decode";
 import { map, take } from "rxjs/operators";
 import { BehaviorSubject, from, of } from "rxjs";
 import { User } from "./user.model";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
+import { MatDialog } from '@angular/material';
+import { AuthenticationErrorDialogComponent } from './login/authentication-error-dialog/authentication-error-dialog.component';
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +15,7 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   private user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, public dialog: MatDialog) {}
 
   login(email: string, password: string) {
     this.http
@@ -22,11 +24,20 @@ export class AuthenticationService {
         password,
       })
       .pipe(map((response: any) => response.token))
-      .subscribe((token) => {
+      .subscribe(
+        (token) => {
         const jwtDecoded = jwt_decode(token);
 
         this.setUserData(jwtDecoded);
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl("/home");
+      },
+      error => {
+        this.dialog.open(AuthenticationErrorDialogComponent, {
+          data: {
+            error: error.error.error
+          }
+        });
+
       });
   }
 
@@ -76,7 +87,7 @@ export class AuthenticationService {
 
           this.user.next(user);
 
-          if (!user.tokenIsValid())  {
+          if (!user.tokenIsValid()) {
             this.user.next(null);
             localStorage.removeItem("user");
           }

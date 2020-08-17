@@ -10,13 +10,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AuthenticationGuard } from './authentication.guard';
+import { AuthenticationErrorDialogComponent } from './login/authentication-error-dialog/authentication-error-dialog.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    AuthenticationErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,9 @@ import { AuthenticationGuard } from './authentication.guard';
     MaterialModule,
     ReactiveFormsModule,
     HttpClientModule
+  ],
+  entryComponents: [
+    AuthenticationErrorDialogComponent
   ],
   providers: [AuthenticationGuard],
   bootstrap: [AppComponent]
