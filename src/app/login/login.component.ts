@@ -5,35 +5,104 @@ import {
   FormControl,
   Validators,
   AbstractControl,
+  FormBuilder,
 } from "@angular/forms";
 import { AuthenticationService } from "../authentication.service";
 import { flatMap, take, tap } from "rxjs/operators";
 import { of } from "rxjs";
-import { User } from "../user.model";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  loginPage = true;
+
   emailErrorMessage = "Error with the email";
   passwordErrorMessage = "Error with the password";
 
-  loginForm = new FormGroup({
-    email: new FormControl(null, {
-      updateOn: "blur",
-      validators: [Validators.required, Validators.email],
-    }),
-    password: new FormControl(null, {
-      updateOn: "blur",
-      validators: [Validators.required, Validators.minLength(6)],
-    }),
-  });
+  loginForm: FormGroup;
+  signupForm: FormGroup;
 
-  constructor(public authenticationService: AuthenticationService, private router: Router) {
+  roles: string[] = ["consumer", "moderator", "administrator"];
+
+  constructor(
+    public authenticationService: AuthenticationService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
     this.redirectIfUserAuthenticated().subscribe();
+  }
+
+  ngOnInit() {
+    this.createForms();
+    this.switchLoginSignup();
+  }
+
+  createForms() {
+    this.createLoginForm();
+    this.createSignupForm();
+  }
+
+  createLoginForm() {
+    this.loginForm = new FormGroup({
+      email: new FormControl(null, {
+        updateOn: "blur",
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl(null, {
+        updateOn: "blur",
+        validators: [Validators.required, Validators.minLength(6)],
+      }),
+    });
+  }
+
+  createSignupForm() {
+    this.signupForm = this.fb.group({
+      name: [
+        "",
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(255),
+          ],
+          updateOn: "blur",
+        },
+      ],
+      email: [
+        "",
+        {
+          validators: [
+            Validators.required,
+            Validators.email,
+            Validators.minLength(6),
+            Validators.maxLength(255),
+          ],
+          updateOn: "blur",
+        },
+      ],
+      password: [
+        "",
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(1024),
+          ],
+          updateOn: "blur",
+        },
+      ],
+      rol: [
+        "consumer",
+        {
+          validators: [Validators.required, Validators.maxLength(255)],
+          updateOn: "blur",
+        },
+      ],
+    });
   }
 
   showEmailError() {
@@ -94,9 +163,23 @@ export class LoginComponent {
         return of(isAuthenticated);
       }),
       tap((isAuthenticated) => {
-        if (isAuthenticated)
-          this.router.navigateByUrl('/home');
+        if (isAuthenticated) this.router.navigateByUrl("/home");
       })
     );
+  }
+
+  switchLoginSignup() {
+    this.loginPage = !this.loginPage;
+    this.changeFooterColor();
+  }
+
+  changeFooterColor() {
+    const footer: any = document.getElementsByClassName('footer')[0];
+
+    if (this.loginPage) {
+      footer.style.backgroundColor = `#8292A1`;
+    } else {
+      footer.style.backgroundColor = `#EDE1A8`;
+    }
   }
 }
