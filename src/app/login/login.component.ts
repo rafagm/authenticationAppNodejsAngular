@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   emailErrorMessage = "Error with the email";
   passwordErrorMessage = "Error with the password";
+  nameErrorMessage = "Error with the name";
 
   loginForm: FormGroup;
   signupForm: FormGroup;
@@ -95,7 +96,7 @@ export class LoginComponent implements OnInit {
           updateOn: "blur",
         },
       ],
-      rol: [
+      role: [
         "consumer",
         {
           validators: [Validators.required, Validators.maxLength(255)],
@@ -106,7 +107,9 @@ export class LoginComponent implements OnInit {
   }
 
   showEmailError() {
-    const emailFormControl: AbstractControl = this.loginForm.get("email");
+    const emailFormControl: AbstractControl = this.loginPage
+      ? this.loginForm.get("email")
+      : this.signupForm.get("email");
     const errors = emailFormControl.errors;
 
     if (errors) this.setEmailErrorMessage(errors);
@@ -123,15 +126,14 @@ export class LoginComponent implements OnInit {
   }
 
   showPasswordError() {
-    const passwordFormControl: AbstractControl = this.loginForm.get("password");
+    const passwordFormControl: AbstractControl = this.loginPage
+      ? this.loginForm.get("password")
+      : this.signupForm.get("password");
     const errors = passwordFormControl.errors;
 
     if (errors) this.setPasswordErrorMessage(errors);
 
-    return (
-      !this.loginForm.get("password").valid &&
-      this.loginForm.get("password").touched
-    );
+    return !passwordFormControl.valid && passwordFormControl.touched;
   }
 
   setPasswordErrorMessage(errors) {
@@ -139,6 +141,23 @@ export class LoginComponent implements OnInit {
     else if (errors.minlength)
       this.passwordErrorMessage =
         "Password must be at least 6 characters long ";
+  }
+
+  showNameError() {
+    const nameFormControl: AbstractControl = this.loginPage
+      ? this.loginForm.get("name")
+      : this.signupForm.get("name");
+    const errors = nameFormControl.errors;
+
+    if (errors) this.setNameErrorMessage(errors);
+
+    return !nameFormControl.valid && nameFormControl.touched;
+  }
+
+  setNameErrorMessage(errors) {
+    if (errors.required) this.nameErrorMessage = "Name is required";
+    else if (errors.minlength)
+      this.nameErrorMessage = "Name must be at least 6 characters long";
   }
 
   logIn() {
@@ -153,6 +172,18 @@ export class LoginComponent implements OnInit {
 
   logOut() {
     this.authenticationService.logout();
+  }
+
+  signUp() {
+    this.signupForm.markAllAsTouched();
+    if (this.signupForm.invalid) return;
+
+    const email = this.signupForm.get("email").value;
+    const password = this.signupForm.get("password").value;
+    const name = this.signupForm.get("name").value;
+    const role = this.signupForm.get("role").value;
+
+    this.authenticationService.signUp({ name, email, password, role });
   }
 
   private redirectIfUserAuthenticated() {
@@ -170,11 +201,17 @@ export class LoginComponent implements OnInit {
 
   switchLoginSignup() {
     this.loginPage = !this.loginPage;
+    this.resetFormValidation();
     this.changeFooterColor();
   }
 
+  resetFormValidation() {
+    this.signupForm.markAsUntouched();
+    this.loginForm.markAsUntouched();
+  }
+
   changeFooterColor() {
-    const footer: any = document.getElementsByClassName('footer')[0];
+    const footer: any = document.getElementsByClassName("footer")[0];
 
     if (this.loginPage) {
       footer.style.backgroundColor = `#8292A1`;

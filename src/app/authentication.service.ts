@@ -65,6 +65,30 @@ export class AuthenticationService {
     localStorage.setItem("user", JSON.stringify(user));
   }
 
+  signUp(user) {
+    this.logging = true;
+    this.http
+      .post(environment.API_URI + "/register", {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        rol: user.role,
+      })
+      .pipe(finalize(() => (this.logging = false)))
+      .subscribe(
+        (reponse) => {
+          this.login(user.email, user.password);
+        },
+        (error) => {
+          this.dialog.open(AuthenticationErrorDialogComponent, {
+            data: {
+              error: error.error.error,
+            },
+          });
+        }
+      );
+  }
+
   logout() {
     this.user.next(null);
     localStorage.removeItem("user");

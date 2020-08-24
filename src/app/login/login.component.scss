@@ -34,7 +34,6 @@
   }
 }
 
-
 mat-form-field {
   display: block;
 }
@@ -81,7 +80,6 @@ mat-form-field {
     padding: 0.2em 2.5em;
     font-weight: 600;
     z-index: 11;
-
   }
 }
 
@@ -96,6 +94,17 @@ mat-form-field {
 
   &__signup {
     top: 100%;
+  }
+}
+
+.spinner {
+  &__signUp {
+    position: relative;
+    top: 5em;
+
+    @media only screen and (max-width: 760px) {
+      top: 7em;
+    }
   }
 }
 
