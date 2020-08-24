@@ -4,7 +4,7 @@ export class User {
     public email: string,
     public name: string,
     public rol: string,
-    private tokenExpirationDate?: number
+    public tokenExpirationDate?: number
   )
   {}
 

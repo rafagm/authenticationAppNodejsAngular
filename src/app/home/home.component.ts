@@ -9,6 +9,7 @@ import { User } from "../user.model";
 })
 export class HomeComponent implements OnInit {
   user: User;
+  tokenTimeLeft: number;
 
   constructor(private authenticationService: AuthenticationService) {}
 
@@ -16,6 +17,16 @@ export class HomeComponent implements OnInit {
     this.authenticationService.getUser().subscribe((user: User) => {
       this.user = user;
     });
+
+    this.setTokenCron();
+  }
+
+  setTokenCron() {
+    setInterval(() => {
+      this.tokenTimeLeft = this.user.tokenExpirationDate*1000 - new Date().getTime()
+      console.log(new Date().getTime());
+
+    }, 1000);
   }
 
   logOut() {

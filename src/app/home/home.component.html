@@ -1,8 +1,20 @@
 <div class="main d-flex flex-column">
   <div class="row justify-content-center">
-    <div class="col col-6 col-sm-3 consumer  text-center p-3">Consumer</div>
-    <div class="col col-6 col-sm-3 moderator text-center p-3">Moderator</div>
-    <div class="col col-6 col-sm-3 administrator text-center p-3">Administrator</div>
+    <div
+      class="col col-6 col-sm-3 consumer  text-center p-3"
+      [routerLink]="['consumer']">
+      Consumer
+    </div>
+    <div
+      class="col col-6 col-sm-3 moderator text-center p-3"
+      [routerLink]="['moderator']">
+      Moderator
+    </div>
+    <div
+      class="col col-6 col-sm-3 administrator text-center p-3"
+      [routerLink]="['administrator']">
+      Administrator
+    </div>
     <div
       class="col col-6 col-sm-3 logout text-center p-3"
       (click)="logOut()">
@@ -10,6 +22,10 @@
     </div>
   </div>
   <div class="row userInfo flex-column justify-content-center align-content-center">
+    <div class="router">
+      <router-outlet></router-outlet>
+
+    </div>
     <div class="card">
       <div class="set">
         <span class="field field__userinfo"> </span>
@@ -17,7 +33,7 @@
       </div>
       <div class="set">
         <span class="field">name</span>
-        <span class="value border-bottom-0 ">{{ user.name }}</span>
+        <span class="value border-bottom-0">{{ user.name }}</span>
       </div>
       <div class="set">
         <span class="field">email</span>
@@ -25,7 +41,11 @@
       </div>
       <div class="set">
         <span class="field">role</span>
-        <span class="value">{{ user.rol }}</span>
+        <span class="value border-bottom-0">{{ user.rol }}</span>
+      </div>
+      <div class="set">
+        <span class="field">token expiration</span>
+        <span class="value">{{ tokenTimeLeft/1000 | number: '1.0-0'}} s</span>
       </div>
     </div>
   </div>
