@@ -1,4 +1,3 @@
-
 <div class="main d-flex align-items-center justify-content-center">
   <div class="row d-flex justify-content-center">
     <div class="col">
@@ -9,6 +8,10 @@
           &
           <span class="tech tech__nodejs">Node.js</span>
         </div>
+        <mat-spinner
+          class="mb-3"
+          diameter="40"
+          *ngIf='authenticationService.logging'></mat-spinner>
         <form
           class="form d-flex flex-column justify-content-center  align-items-center"
           [formGroup]="loginForm">
@@ -35,15 +38,19 @@
                   placeholder="*****"
                   formControlName="password"
                   required
-                  type = "password"
+                  type="password"
                   password>
                 <mat-error *ngIf="showPasswordError()">{{ passwordErrorMessage }}</mat-error>
               </mat-form-field>
             </div>
           </div>
-          <div class="row ">
+          <div class="row">
             <div class="col">
-              <button (click)="logIn()" mat-raised-button >Log In</button>
+              <button
+                (click)="logIn()"
+                mat-raised-button>
+                Log In
+              </button>
             </div>
           </div>
         </form>

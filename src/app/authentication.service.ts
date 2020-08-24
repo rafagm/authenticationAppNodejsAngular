@@ -2,43 +2,53 @@ import { Injectable } from "@angular/core";
 import { environment } from "../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import * as jwt_decode from "jwt-decode";
-import { map, take } from "rxjs/operators";
+import { map, take, finalize } from "rxjs/operators";
 import { BehaviorSubject, from, of } from "rxjs";
 import { User } from "./user.model";
 import { Router } from "@angular/router";
-import { MatDialog } from '@angular/material';
-import { AuthenticationErrorDialogComponent } from './login/authentication-error-dialog/authentication-error-dialog.component';
+import { MatDialog } from "@angular/material";
+import { AuthenticationErrorDialogComponent } from "./login/authentication-error-dialog/authentication-error-dialog.component";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthenticationService {
   private user = new BehaviorSubject<User>(null);
+  public logging = false; //For spinners purpose
 
-  constructor(private http: HttpClient, private router: Router, public dialog: MatDialog) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
 
   login(email: string, password: string) {
+    this.logging = true;
     this.http
       .post(environment.API_URI + "/login", {
         email,
         password,
       })
-      .pipe(map((response: any) => response.token))
+      .pipe(
+        map((response: any) => response.token),
+        finalize(() => {
+          this.logging = false;
+        })
+      )
       .subscribe(
         (token) => {
-        const jwtDecoded = jwt_decode(token);
-
-        this.setUserData(jwtDecoded);
-        this.router.navigateByUrl("/home");
-      },
-      error => {
-        this.dialog.open(AuthenticationErrorDialogComponent, {
-          data: {
-            error: error.error.error
-          }
-        });
-
-      });
+          const jwtDecoded = jwt_decode(token);
+          this.setUserData(jwtDecoded);
+          this.router.navigateByUrl("/home");
+        },
+        (error) => {
+          this.dialog.open(AuthenticationErrorDialogComponent, {
+            data: {
+              error: error.error.error,
+            },
+          });
+        }
+      );
   }
 
   setUserData(userData) {
