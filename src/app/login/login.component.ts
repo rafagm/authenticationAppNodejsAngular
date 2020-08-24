@@ -18,7 +18,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-  loginPage = true;
+  loginPage = false;
 
   emailErrorMessage = "Error with the email";
   passwordErrorMessage = "Error with the password";
