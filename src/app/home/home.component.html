@@ -22,7 +22,11 @@
     </div>
   </div>
   <div class="row userInfo flex-column justify-content-center align-content-center">
-    <div class="router">
+    <div class="router d-flex align-items-center flex-column">
+      <div class="role">
+        <span class="role__msg">Your role is => </span>
+        <span class="role__user">{{ user.rol}}</span>
+      </div>
       <router-outlet></router-outlet>
 
     </div>
