@@ -1,6 +1,6 @@
 # Authentication & Authorization App made with angular
 
-Live example: https://github.com/rafagm/authenticationAppNodejsAngular
+Live example: https://rafagm.github.io/authenticationAppNodejsAngular/
 
 ## API Documentation
 
