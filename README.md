@@ -5,3 +5,6 @@ Live example: https://rafagm.github.io/authenticationAppNodejsAngular/
 ## API Documentation
 
 https://fierce-chamber-74137.herokuapp.com/api-docs/
+
+
+//TODO: Reponsive for mobiles devices
