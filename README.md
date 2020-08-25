@@ -1,4 +1,4 @@
-# Authenticationd & Authorization App made with angular
+# Authentication & Authorization App made with angular
 
 Live example: https://github.com/rafagm/authenticationAppNodejsAngular
 
